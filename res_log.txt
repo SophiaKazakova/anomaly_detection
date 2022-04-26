@@ -117,3 +117,173 @@ AUC:  0.5985
 pAUC:  0.5089473684210526
 AUC avg: 0.5701999999999999
 pAUC avg: 0.5103508771929824
+
+
+
+Starting OE training, OE class is ToyTrain
+Epoch 1 		 Training Loss: 0.07820712671952045 		 Validation Loss: 0.4315224587917328
+Validation Loss Decreased(inf--->0.431522) 	 Saving The Model
+Epoch 2 		 Training Loss: 0.04415741144738933 		 Validation Loss: 0.34208816289901733
+Validation Loss Decreased(0.431522--->0.342088) 	 Saving The Model
+Epoch 3 		 Training Loss: 0.0351566945380987 		 Validation Loss: 0.3059937357902527
+Validation Loss Decreased(0.342088--->0.305994) 	 Saving The Model
+Epoch 4 		 Training Loss: 0.030623459574231442 		 Validation Loss: 0.21279798448085785
+Validation Loss Decreased(0.305994--->0.212798) 	 Saving The Model
+Epoch 5 		 Training Loss: 0.027717099921341908 		 Validation Loss: 0.17915746569633484
+Validation Loss Decreased(0.212798--->0.179157) 	 Saving The Model
+Epoch 6 		 Training Loss: 0.02602719077642294 		 Validation Loss: 0.17287121713161469
+Validation Loss Decreased(0.179157--->0.172871) 	 Saving The Model
+Epoch 7 		 Training Loss: 0.02503553960234561 		 Validation Loss: 0.28241831064224243
+Epoch 8 		 Training Loss: 0.023791135298682653 		 Validation Loss: 0.2178272157907486
+Epoch 9 		 Training Loss: 0.022951469073032447 		 Validation Loss: 0.1734141707420349
+Epoch 10 		 Training Loss: 0.02129266362518389 		 Validation Loss: 0.07994001358747482
+Validation Loss Decreased(0.172871--->0.079940) 	 Saving The Model
+Epoch 11 		 Training Loss: 0.02114028698626034 		 Validation Loss: 0.08697580546140671
+Epoch 12 		 Training Loss: 0.020030210042332717 		 Validation Loss: 0.10035248845815659
+Epoch 13 		 Training Loss: 0.019397200372545643 		 Validation Loss: 0.14974486827850342
+Epoch 14 		 Training Loss: 0.018804084806841738 		 Validation Loss: 0.1413620114326477
+Epoch 15 		 Training Loss: 0.018299835506192547 		 Validation Loss: 0.09384357184171677
+Epoch 16 		 Training Loss: 0.018361810465997205 		 Validation Loss: 0.2834429144859314
+Epoch 17 		 Training Loss: 0.017695304997106816 		 Validation Loss: 0.07226011157035828
+Validation Loss Decreased(0.079940--->0.072260) 	 Saving The Model
+Epoch 18 		 Training Loss: 0.017417432611530767 		 Validation Loss: 0.11614058911800385
+Epoch 19 		 Training Loss: 0.017263860768697997 		 Validation Loss: 0.10738617181777954
+Epoch 20 		 Training Loss: 0.016619724637650428 		 Validation Loss: 0.13928233087062836
+class: OE fan section 00, outlier type:  ToyTrain
+AUC:  0.6386
+pAUC:  0.5652631578947369
+class: OE fan section 01, outlier type:  ToyTrain
+AUC:  0.5177999999999999
+pAUC:  0.5152631578947369
+class: OE fan section 02, outlier type:  ToyTrain
+AUC:  0.6065
+pAUC:  0.5052631578947369
+AUC avg: 0.5876333333333333
+pAUC avg: 0.5285964912280702
+
+
+
+Starting OE training, OE class is valve
+Epoch 1 		 Training Loss: 0.07779936591519955 		 Validation Loss: 0.42979609966278076
+Validation Loss Decreased(inf--->0.429796) 	 Saving The Model
+Epoch 2 		 Training Loss: 0.043251641986376425 		 Validation Loss: 0.33376750349998474
+Validation Loss Decreased(0.429796--->0.333768) 	 Saving The Model
+Epoch 3 		 Training Loss: 0.03346788901043065 		 Validation Loss: 0.3001740872859955
+Validation Loss Decreased(0.333768--->0.300174) 	 Saving The Model
+Epoch 4 		 Training Loss: 0.028295356185829387 		 Validation Loss: 0.1928311139345169
+Validation Loss Decreased(0.300174--->0.192831) 	 Saving The Model
+Epoch 5 		 Training Loss: 0.025231641053440088 		 Validation Loss: 0.16729409992694855
+Validation Loss Decreased(0.192831--->0.167294) 	 Saving The Model
+Epoch 6 		 Training Loss: 0.023375742266232027 		 Validation Loss: 0.158620223402977
+Validation Loss Decreased(0.167294--->0.158620) 	 Saving The Model
+Epoch 7 		 Training Loss: 0.022850248298825735 		 Validation Loss: 0.2610940635204315
+Epoch 8 		 Training Loss: 0.02209312743210095 		 Validation Loss: 0.1954474300146103
+Epoch 9 		 Training Loss: 0.021168259983050063 		 Validation Loss: 0.15739956498146057
+Validation Loss Decreased(0.158620--->0.157400) 	 Saving The Model
+Epoch 10 		 Training Loss: 0.01980608047798593 		 Validation Loss: 0.06336710602045059
+Validation Loss Decreased(0.157400--->0.063367) 	 Saving The Model
+Epoch 11 		 Training Loss: 0.019847435014758337 		 Validation Loss: 0.0793711319565773
+Epoch 12 		 Training Loss: 0.019032557831799732 		 Validation Loss: 0.09951364994049072
+Epoch 13 		 Training Loss: 0.018615295664664914 		 Validation Loss: 0.16847126185894012
+Epoch 14 		 Training Loss: 0.018062349081911306 		 Validation Loss: 0.1342495232820511
+Epoch 15 		 Training Loss: 0.017654852793016967 		 Validation Loss: 0.08975160866975784
+Epoch 16 		 Training Loss: 0.017347544778455445 		 Validation Loss: 0.3041521906852722
+Epoch 17 		 Training Loss: 0.01762467391907852 		 Validation Loss: 0.08244457840919495
+Epoch 18 		 Training Loss: 0.017280935805211676 		 Validation Loss: 0.11154545098543167
+Epoch 19 		 Training Loss: 0.01671829769150057 		 Validation Loss: 0.11160650849342346
+Epoch 20 		 Training Loss: 0.016043425666445746 		 Validation Loss: 0.1629079282283783
+class: OE fan section 00, outlier type:  valve
+AUC:  0.5992
+pAUC:  0.5289473684210526
+class: OE fan section 01, outlier type:  valve
+AUC:  0.5358
+pAUC:  0.5142105263157895
+class: OE fan section 02, outlier type:  valve
+AUC:  0.5972000000000001
+pAUC:  0.5052631578947369
+AUC avg: 0.5774
+pAUC avg: 0.516140350877193
+
+
+
+Starting OE training, OE class is gearbox
+Epoch 1 		 Training Loss: 0.18975961929623117 		 Validation Loss: 0.24211665987968445
+Validation Loss Decreased(inf--->0.242117) 	 Saving The Model
+Epoch 2 		 Training Loss: 0.10304929807465127 		 Validation Loss: 0.16947510838508606
+Validation Loss Decreased(0.242117--->0.169475) 	 Saving The Model
+Epoch 3 		 Training Loss: 0.0824845303642623 		 Validation Loss: 0.20139028131961823
+Epoch 4 		 Training Loss: 0.07456676836343522 		 Validation Loss: 0.17202238738536835
+Epoch 5 		 Training Loss: 0.06959517621137995 		 Validation Loss: 0.1537940353155136
+Validation Loss Decreased(0.169475--->0.153794) 	 Saving The Model
+Epoch 6 		 Training Loss: 0.06706219071403463 		 Validation Loss: 0.12991058826446533
+Validation Loss Decreased(0.153794--->0.129911) 	 Saving The Model
+Epoch 7 		 Training Loss: 0.06454759130769587 		 Validation Loss: 0.18921910226345062
+Epoch 8 		 Training Loss: 0.06236611425559571 		 Validation Loss: 0.1498718559741974
+Epoch 9 		 Training Loss: 0.06120475381612778 		 Validation Loss: 0.09335123747587204
+Validation Loss Decreased(0.129911--->0.093351) 	 Saving The Model
+Epoch 10 		 Training Loss: 0.05946660711568721 		 Validation Loss: 0.0666225403547287
+Validation Loss Decreased(0.093351--->0.066623) 	 Saving The Model
+Epoch 11 		 Training Loss: 0.05930771143671046 		 Validation Loss: 0.08338662981987
+Epoch 12 		 Training Loss: 0.057521789394160534 		 Validation Loss: 0.08198051899671555
+Epoch 13 		 Training Loss: 0.05689606768019656 		 Validation Loss: 0.16671325266361237
+Epoch 14 		 Training Loss: 0.0559314000717503 		 Validation Loss: 0.10984492301940918
+Epoch 15 		 Training Loss: 0.05519485992795609 		 Validation Loss: 0.09184706211090088
+Epoch 16 		 Training Loss: 0.05471058197795076 		 Validation Loss: 0.22535672783851624
+Epoch 17 		 Training Loss: 0.05334268181406437 		 Validation Loss: 0.07104342430830002
+Epoch 18 		 Training Loss: 0.05226440886233715 		 Validation Loss: 0.07566601783037186
+Epoch 19 		 Training Loss: 0.0520615534302085 		 Validation Loss: 0.1082371398806572
+Epoch 20 		 Training Loss: 0.05188614742315196 		 Validation Loss: 0.144670307636261
+class: OE fan section 00, outlier type:  gearbox
+AUC:  0.6171
+pAUC:  0.5226315789473684
+class: OE fan section 01, outlier type:  gearbox
+AUC:  0.5179
+pAUC:  0.5173684210526316
+class: OE fan section 02, outlier type:  gearbox
+AUC:  0.6142
+pAUC:  0.5105263157894737
+AUC avg: 0.5830666666666667
+pAUC avg: 0.5168421052631579
+
+
+
+Starting OE training, OE class is bearing
+Epoch 1 		 Training Loss: 0.07751002107211884 		 Validation Loss: 0.4333542585372925
+Validation Loss Decreased(inf--->0.433354) 	 Saving The Model
+Epoch 2 		 Training Loss: 0.042781067794149225 		 Validation Loss: 0.3461034297943115
+Validation Loss Decreased(0.433354--->0.346103) 	 Saving The Model
+Epoch 3 		 Training Loss: 0.03394492656151031 		 Validation Loss: 0.31059563159942627
+Validation Loss Decreased(0.346103--->0.310596) 	 Saving The Model
+Epoch 4 		 Training Loss: 0.02939202866338669 		 Validation Loss: 0.2205199897289276
+Validation Loss Decreased(0.310596--->0.220520) 	 Saving The Model
+Epoch 5 		 Training Loss: 0.02629695254120421 		 Validation Loss: 0.19067248702049255
+Validation Loss Decreased(0.220520--->0.190672) 	 Saving The Model
+Epoch 6 		 Training Loss: 0.024965443856459348 		 Validation Loss: 0.18569503724575043
+Validation Loss Decreased(0.190672--->0.185695) 	 Saving The Model
+Epoch 7 		 Training Loss: 0.02386946375779015 		 Validation Loss: 0.3009493350982666
+Epoch 8 		 Training Loss: 0.023015914970335175 		 Validation Loss: 0.23143331706523895
+Epoch 9 		 Training Loss: 0.021943813179956473 		 Validation Loss: 0.18320654332637787
+Validation Loss Decreased(0.185695--->0.183207) 	 Saving The Model
+Epoch 10 		 Training Loss: 0.020996137958099233 		 Validation Loss: 0.08679357171058655
+Validation Loss Decreased(0.183207--->0.086794) 	 Saving The Model
+Epoch 11 		 Training Loss: 0.02080629778867389 		 Validation Loss: 0.10232282429933548
+Epoch 12 		 Training Loss: 0.020178886794267183 		 Validation Loss: 0.12631933391094208
+Epoch 13 		 Training Loss: 0.019883145063005862 		 Validation Loss: 0.20028220117092133
+Epoch 14 		 Training Loss: 0.019566020849061772 		 Validation Loss: 0.14626480638980865
+Epoch 15 		 Training Loss: 0.018948900513350964 		 Validation Loss: 0.1205134242773056
+Epoch 16 		 Training Loss: 0.01873847730259629 		 Validation Loss: 0.38681283593177795
+Epoch 17 		 Training Loss: 0.018295077250358907 		 Validation Loss: 0.10933070629835129
+Epoch 18 		 Training Loss: 0.01811280230337635 		 Validation Loss: 0.22389647364616394
+Epoch 19 		 Training Loss: 0.017932626626830785 		 Validation Loss: 0.13860350847244263
+Epoch 20 		 Training Loss: 0.01794203400532616 		 Validation Loss: 0.22616347670555115
+class: OE fan section 00, outlier type:  bearing
+AUC:  0.6121
+pAUC:  0.5421052631578948
+class: OE fan section 01, outlier type:  bearing
+AUC:  0.5322
+pAUC:  0.5121052631578947
+class: OE fan section 02, outlier type:  bearing
+AUC:  0.6057
+pAUC:  0.5068421052631579
+AUC avg: 0.5833333333333334
+pAUC avg: 0.5203508771929825
