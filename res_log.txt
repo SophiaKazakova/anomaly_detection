@@ -79,3 +79,41 @@ pAUC avg: 0.5296491228070176
 
 
 
+Starting OE training, OE class is ToyCar
+Epoch 1 		 Training Loss: 1.177693486847776 		 Validation Loss: 0.5504093766212463
+Validation Loss Decreased(inf--->0.550409) 	 Saving The Model
+Epoch 2 		 Training Loss: 0.5449911999575635 		 Validation Loss: 0.4329967498779297
+Validation Loss Decreased(0.550409--->0.432997) 	 Saving The Model
+Epoch 3 		 Training Loss: 0.4281522425565314 		 Validation Loss: 0.43913862109184265
+Epoch 4 		 Training Loss: 0.3624603198246753 		 Validation Loss: 0.2827661633491516
+Validation Loss Decreased(0.432997--->0.282766) 	 Saving The Model
+Epoch 5 		 Training Loss: 0.33318645348574255 		 Validation Loss: 0.23068447411060333
+Validation Loss Decreased(0.282766--->0.230684) 	 Saving The Model
+Epoch 6 		 Training Loss: 0.3049677936954701 		 Validation Loss: 0.22830387949943542
+Validation Loss Decreased(0.230684--->0.228304) 	 Saving The Model
+Epoch 7 		 Training Loss: 0.29407446847317065 		 Validation Loss: 0.3817479908466339
+Epoch 8 		 Training Loss: 0.27859220796443046 		 Validation Loss: 0.29132500290870667
+Epoch 9 		 Training Loss: 0.2730336897867791 		 Validation Loss: 0.38423916697502136
+Epoch 10 		 Training Loss: 0.2583298374046671 		 Validation Loss: 0.1095890998840332
+Validation Loss Decreased(0.228304--->0.109589) 	 Saving The Model
+Epoch 11 		 Training Loss: 0.2547413778114826 		 Validation Loss: 0.14782783389091492
+Epoch 12 		 Training Loss: 0.248396709085779 		 Validation Loss: 0.18279539048671722
+Epoch 13 		 Training Loss: 0.24243833092933006 		 Validation Loss: 0.26554521918296814
+Epoch 14 		 Training Loss: 0.23138701059716812 		 Validation Loss: 0.2735649645328522
+Epoch 15 		 Training Loss: 0.23188726619837133 		 Validation Loss: 0.1904386729001999
+Epoch 16 		 Training Loss: 0.23237073151989185 		 Validation Loss: 0.4944832921028137
+Epoch 17 		 Training Loss: 0.22392939570102285 		 Validation Loss: 0.16789616644382477
+Epoch 18 		 Training Loss: 0.22127851114628164 		 Validation Loss: 0.27006009221076965
+Epoch 19 		 Training Loss: 0.22344787474325362 		 Validation Loss: 0.21540121734142303
+Epoch 20 		 Training Loss: 0.22008296165694582 		 Validation Loss: 0.29644569754600525
+class: OE fan section 00, outlier type:  ToyCar
+AUC:  0.6034
+pAUC:  0.5236842105263158
+class: OE fan section 01, outlier type:  ToyCar
+AUC:  0.5086999999999999
+pAUC:  0.49842105263157893
+class: OE fan section 02, outlier type:  ToyCar
+AUC:  0.5985
+pAUC:  0.5089473684210526
+AUC avg: 0.5701999999999999
+pAUC avg: 0.5103508771929824
