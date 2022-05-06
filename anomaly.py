@@ -15,7 +15,7 @@ torch.manual_seed(24)
 np.random.seed(24)
 
 args = {
-    'epochs': 5,
+    'epochs': 20,
     'log_dir': os.path.join(os.getcwd(), 'logs'),
     'feature_extractor': 'mel_spectrogram',
     'data_root': os.path.join(os.getcwd(), 'dev_data'),
@@ -86,9 +86,10 @@ class MachineDataset(Dataset):
 
 print('Loading data...')
 
+oepath = os.path.join('./dev_data/', args['OE'], 'train')
 train_data_in = MachineDataset(data_path='./dev_data/fan/train',
                                use_augmentation=False, mode='train')
-train_data_out = MachineDataset(data_path='./dev_data/bearing/train',
+train_data_out = MachineDataset(data_path=oepath,
                                 use_augmentation=False, mode='train')
 validation_data = MachineDataset(data_path='./dev_data/fan/eval',
                                  use_augmentation=False, mode='train')
@@ -96,12 +97,12 @@ test_data_00 = MachineDataset(data_path='./dev_data/fan/test/sec00', use_augment
 test_data_01 = MachineDataset(data_path='./dev_data/fan/test/sec01', use_augmentation=False, mode='test')
 test_data_02 = MachineDataset(data_path='./dev_data/fan/test/sec02', use_augmentation=False, mode='test')
 
-train_loader_in = DataLoader(train_data_in, batch_size=32, shuffle=True, num_workers=1)
-train_loader_out = DataLoader(train_data_out, batch_size=32, shuffle=True, num_workers=1)
-val_loader = DataLoader(validation_data, batch_size=32, shuffle=True, num_workers=1)
-test_loader_00 = DataLoader(test_data_00, shuffle=False, num_workers=1)
-test_loader_01 = DataLoader(test_data_01, shuffle=False, num_workers=1)
-test_loader_02 = DataLoader(test_data_02, shuffle=False, num_workers=1)
+train_loader_in = DataLoader(train_data_in, batch_size=32, shuffle=True, num_workers=2)
+train_loader_out = DataLoader(train_data_out, batch_size=32, shuffle=True, num_workers=2)
+val_loader = DataLoader(validation_data, batch_size=32, shuffle=True, num_workers=2)
+test_loader_00 = DataLoader(test_data_00, shuffle=False, num_workers=2)
+test_loader_01 = DataLoader(test_data_01, shuffle=False, num_workers=2)
+test_loader_02 = DataLoader(test_data_02, shuffle=False, num_workers=2)
 
 
 class AE(torch.nn.Module):
@@ -159,10 +160,11 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
 loss_hist = []
-min_valid_loss = np.inf
 
 # --------------------------------------- TRAINING -------------------------------------------
-'''print('Starting training...')
+'''
+print('Starting training...')
+min_valid_loss = np.inf
 
 for i in range(args['epochs']):
     train_loss = 0.0
@@ -295,8 +297,9 @@ print("pAUC: ", pAUC)
 
 print("AUC avg:", AUCavg/3)
 print("pAUC avg:", pAUCavg/3)'''
-
 # --------------------------------------------- OE -------------------------------------
+min_valid_loss = np.inf
+
 print('Starting OE training, OE class is', args['OE'])
 for i in range(args['epochs']):
     train_loss = 0.0
