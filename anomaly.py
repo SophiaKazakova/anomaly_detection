@@ -6,6 +6,7 @@ import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 import numpy as np
 import time
+import statistics
 
 from tqdm import tqdm
 
@@ -21,13 +22,15 @@ args = {
     'data_root': os.path.join(os.getcwd(), 'dev_data'),
     'learning_rate': 0.001,
     'save': os.path.join(os.getcwd(), 'models'),
-    'OE': 'bearing'  # slider/ToyCar/ToyTrain/valve/gearbox/bearing
+    'target_class': 'valve',
+    'OE': 'slider'  # fan/slider/ToyCar/ToyTrain/valve/gearbox/bearing
 }
 
 class MachineDataset(Dataset):
-    def __init__(self, data_path, use_augmentation=False, mode='train'):
+    def __init__(self, data_path, eval_path, use_augmentation=False, mode='train'):
 
         self.data_path = data_path
+        self.eval_path = eval_path
         self.use_augmentation = use_augmentation
         self.mode = mode
 
@@ -35,6 +38,10 @@ class MachineDataset(Dataset):
         self.files = []
         for filename in tqdm(os.listdir(self.data_path)):
             self.files.append(os.path.join(self.data_path, filename))
+
+        if data_path != eval_path:
+            for filename in tqdm(os.listdir(self.eval_path)):
+                self.files.append(os.path.join(self.eval_path, filename))
 
     def __len__(self):
         return len(self.files)
@@ -86,24 +93,38 @@ class MachineDataset(Dataset):
 
 print('Loading data...')
 
-oepath = os.path.join('./dev_data/', args['OE'], 'train')
-train_data_in = MachineDataset(data_path='./dev_data/fan/train',
+target_path = os.path.join('./dev_data/', args['target_class'])
+eval_path = os.path.join('./dev_data/', args['target_class'], 'eval')
+OE_path = os.path.join('./dev_data/', args['OE'], 'train')
+
+train_data_in = MachineDataset(data_path=os.path.join(target_path, 'train'), eval_path = eval_path,
                                use_augmentation=False, mode='train')
-train_data_out = MachineDataset(data_path=oepath,
+train_data_out = MachineDataset(data_path = OE_path, eval_path = OE_path,
                                 use_augmentation=False, mode='train')
-validation_data = MachineDataset(data_path='./dev_data/fan/eval',
-                                 use_augmentation=False, mode='train')
-test_data_00 = MachineDataset(data_path='./dev_data/fan/test/sec00', use_augmentation=False, mode='test')
-test_data_01 = MachineDataset(data_path='./dev_data/fan/test/sec01', use_augmentation=False, mode='test')
-test_data_02 = MachineDataset(data_path='./dev_data/fan/test/sec02', use_augmentation=False, mode='test')
 
-train_loader_in = DataLoader(train_data_in, batch_size=32, shuffle=True, num_workers=2)
+train_size = int(0.8 * len(train_data_in))
+eval_size = len(train_data_in) - train_size
+train_dataset, eval_dataset = torch.utils.data.random_split(train_data_in, [train_size, eval_size])
+
+test_data_s00 = MachineDataset(data_path=os.path.join(target_path, 'test/sec00/source'), eval_path=os.path.join(target_path, 'test/sec00/source'), use_augmentation=False, mode='test')
+test_data_s01 = MachineDataset(data_path=os.path.join(target_path, 'test/sec01/source'), eval_path=os.path.join(target_path, 'test/sec01/source'), use_augmentation=False, mode='test')
+test_data_s02 = MachineDataset(data_path=os.path.join(target_path, 'test/sec02/source'), eval_path=os.path.join(target_path, 'test/sec02/source'), use_augmentation=False, mode='test')
+
+test_data_t00 = MachineDataset(data_path=os.path.join(target_path, 'test/sec00/target'), eval_path=os.path.join(target_path, 'test/sec00/target'), use_augmentation=False, mode='test')
+test_data_t01 = MachineDataset(data_path=os.path.join(target_path, 'test/sec01/target'), eval_path=os.path.join(target_path, 'test/sec01/target'), use_augmentation=False, mode='test')
+test_data_t02 = MachineDataset(data_path=os.path.join(target_path, 'test/sec02/target'), eval_path=os.path.join(target_path, 'test/sec02/target'), use_augmentation=False, mode='test')
+
+train_loader_in = DataLoader(train_dataset, batch_size=32, shuffle=True, num_workers=2)
 train_loader_out = DataLoader(train_data_out, batch_size=32, shuffle=True, num_workers=2)
-val_loader = DataLoader(validation_data, batch_size=32, shuffle=True, num_workers=2)
-test_loader_00 = DataLoader(test_data_00, shuffle=False, num_workers=2)
-test_loader_01 = DataLoader(test_data_01, shuffle=False, num_workers=2)
-test_loader_02 = DataLoader(test_data_02, shuffle=False, num_workers=2)
+val_loader = DataLoader(eval_dataset, batch_size=32, shuffle=True, num_workers=2)
 
+test_loader_s00 = DataLoader(test_data_s00, shuffle=False, num_workers=2)
+test_loader_s01 = DataLoader(test_data_s01, shuffle=False, num_workers=2)
+test_loader_s02 = DataLoader(test_data_s02, shuffle=False, num_workers=2)
+
+test_loader_t00 = DataLoader(test_data_t00, shuffle=False, num_workers=2)
+test_loader_t01 = DataLoader(test_data_t01, shuffle=False, num_workers=2)
+test_loader_t02 = DataLoader(test_data_t02, shuffle=False, num_workers=2)
 
 class AE(torch.nn.Module):
     def __init__(self):
@@ -300,7 +321,7 @@ print("pAUC avg:", pAUCavg/3)'''
 # --------------------------------------------- OE -------------------------------------
 min_valid_loss = np.inf
 
-print('Starting OE training, OE class is', args['OE'])
+print('Starting ', args['target_class'], ' OE training, OE class is', args['OE'])
 for i in range(args['epochs']):
     train_loss = 0.0
     begin_epoch = time.time()
@@ -331,23 +352,29 @@ for i in range(args['epochs']):
         loss = loss_function(x, data)
         valid_loss = loss.item()
 
+    model_name = 'saved_OE_model_' + args['target_class']
+
     print(
         f'Epoch {i + 1} \t\t Training Loss: {train_loss / len(train_loader_in)} \t\t Validation Loss: {valid_loss}')
     if min_valid_loss > valid_loss:
         print(f'Validation Loss Decreased({min_valid_loss:.6f}--->{valid_loss:.6f}) \t Saving The Model')
         min_valid_loss = valid_loss
         # Saving State Dict
-        torch.save(model.state_dict(), 'saved_OE_model.pth')
+        torch.save(model.state_dict(), model_name)
 
-
-y_predoe00 = []
-y_trueoe00 = []
-AUCavg = 0
+y_predoe00s = []
+y_trueoe00s = []
+AUCavg_s = 0
+AUCavg_t = 0
 pAUCavg = 0
 
-model.load_state_dict(torch.load('saved_OE_model.pth'))
+AUC_list_s = []
+AUC_list_t = []
+pAUC_list = []
 
-for data, target in test_loader_00:
+model.load_state_dict(torch.load(model_name))
+
+for data, target in test_loader_s00:
     data = torch.swapaxes(data, 2, 3)
 
     model.eval()
@@ -357,26 +384,97 @@ for data, target in test_loader_00:
 
         loss = loss_function(output, input00)
 
-        y_predoe00.append(np.mean(loss.cpu().numpy()))
-        y_trueoe00.append(target.item())
+        y_predoe00s.append(np.square(loss.cpu().numpy()))
+        y_trueoe00s.append(target.item())
 
-y_predoe00 = np.array(y_predoe00)
-y_trueoe00 = np.array(y_trueoe00)
+y_predoe00s = np.array(y_predoe00s)
+y_trueoe00s = np.array(y_trueoe00s)
 
-AUC = metrics.roc_auc_score(y_trueoe00, y_predoe00)
-pAUC = metrics.roc_auc_score(y_trueoe00, y_predoe00, max_fpr=0.1)
+AUC_s = metrics.roc_auc_score(y_trueoe00s, y_predoe00s)
+pAUC = metrics.roc_auc_score(y_trueoe00s, y_predoe00s, max_fpr=0.1)
 
-AUCavg += AUC
+AUCavg_s += AUC_s
 pAUCavg += pAUC
 
-print("class: OE fan section 00, outlier type: ", args['OE'])
-print("AUC: ", AUC)
+AUC_list_s.append(AUC_s)
+pAUC_list.append(pAUC)
+
+print("class: OE", args['target_class'], "section 00, outlier type: ", args['OE'], 'source')
+print("AUC: ", AUC_s)
 print("pAUC: ", pAUC)
 
-y_predoe01 = []
-y_trueoe01 = []
+y_predoe00t = []
+y_trueoe00t = []
 
-for data, target in test_loader_01:
+model.load_state_dict(torch.load('saved_OE_model.pth'))
+
+for data, target in test_loader_t00:
+    data = torch.swapaxes(data, 2, 3)
+
+    model.eval()
+    with torch.no_grad():
+        input00 = data.float().to(device)
+        output = model(input00)
+
+        loss = loss_function(output, input00)
+
+        y_predoe00t.append(np.mean(loss.cpu().numpy()))
+        y_trueoe00t.append(target.item())
+
+y_predoe00t = np.array(y_predoe00t)
+y_trueoe00t = np.array(y_trueoe00t)
+
+AUC_t = metrics.roc_auc_score(y_trueoe00t, y_predoe00t)
+pAUC = metrics.roc_auc_score(y_trueoe00t, y_predoe00t, max_fpr=0.1)
+
+AUCavg_t += AUC_t
+pAUCavg += pAUC
+
+AUC_list_t.append(AUC_t)
+pAUC_list.append(pAUC)
+
+print("class: OE", args['target_class'], "section 00, outlier type: ", args['OE'], 'target')
+print("AUC: ", AUC_t)
+print("pAUC: ", pAUC)
+
+y_predoe01s = []
+y_trueoe01s = []
+
+for data, target in test_loader_s01:
+    data = torch.swapaxes(data, 2, 3)
+
+
+    model.eval()
+    with torch.no_grad():
+        input01 = data.float().to(device)
+        output = model(input01)
+
+        loss = loss_function(output, input01)
+
+        y_predoe01s.append(np.mean(loss.cpu().numpy()))
+        y_trueoe01s.append(target.item())
+
+y_predoe01s = np.array(y_predoe01s)
+y_trueoe01s = np.array(y_trueoe01s)
+
+AUC_s = metrics.roc_auc_score(y_trueoe01s, y_predoe01s)
+pAUC = metrics.roc_auc_score(y_trueoe01s, y_predoe01s, max_fpr=0.1)
+
+AUCavg_s += AUC_s
+pAUCavg += pAUC
+
+AUC_list_s.append(AUC_s)
+pAUC_list.append(pAUC)
+
+print("class: OE", args['target_class'], "section 01, outlier type: ", args['OE'], 'source')
+print("AUC: ", AUC_s)
+# print("Anomaly acc 2: ", auc2)
+print("pAUC: ", pAUC)
+
+y_predoe01t = []
+y_trueoe01t = []
+
+for data, target in test_loader_t01:
     data = torch.swapaxes(data, 2, 3)
 
     model.eval()
@@ -386,27 +484,31 @@ for data, target in test_loader_01:
 
         loss = loss_function(output, input01)
 
-        y_predoe01.append(np.mean(loss.cpu().numpy()))
-        y_trueoe01.append(target.item())
+        y_predoe01t.append(np.mean(loss.cpu().numpy()))
+        y_trueoe01t.append(target.item())
 
-y_predoe01 = np.array(y_predoe01)
-y_trueoe01 = np.array(y_trueoe01)
+y_predoe01t = np.array(y_predoe01t)
+y_trueoe01t = np.array(y_trueoe01t)
 
-AUC = metrics.roc_auc_score(y_trueoe01, y_predoe01)
-pAUC = metrics.roc_auc_score(y_trueoe01, y_predoe01, max_fpr=0.1)
+AUC_t = metrics.roc_auc_score(y_trueoe01t, y_predoe01t)
+pAUC = metrics.roc_auc_score(y_trueoe01t, y_predoe01t, max_fpr=0.1)
 
-AUCavg += AUC
+AUCavg_t += AUC_t
 pAUCavg += pAUC
 
-print("class: OE fan section 01, outlier type: ", args['OE'])
-print("AUC: ", AUC)
+AUC_list_t.append(AUC_t)
+pAUC_list.append(pAUC)
+
+print("class: OE", args['target_class'], "section 01, outlier type: ", args['OE'], 'target')
+print("AUC: ", AUC_t)
 # print("Anomaly acc 2: ", auc2)
 print("pAUC: ", pAUC)
 
-y_predoe02 = []
-y_trueoe02 = []
 
-for data, target in test_loader_02:
+y_predoe02s = []
+y_trueoe02s = []
+
+for data, target in test_loader_s02:
     data = torch.swapaxes(data, 2, 3)
 
     model.eval()
@@ -416,22 +518,68 @@ for data, target in test_loader_02:
 
         loss = loss_function(output, input02)
 
-        y_predoe02.append(np.mean(loss.cpu().numpy()))
-        y_trueoe02.append(target.item())
+        y_predoe02s.append(np.mean(loss.cpu().numpy()))
+        y_trueoe02s.append(target.item())
 
-y_predoe02 = np.array(y_predoe02)
-y_trueoe02 = np.array(y_trueoe02)
+y_predoe02s = np.array(y_predoe02s)
+y_trueoe02s = np.array(y_trueoe02s)
 
-AUC = metrics.roc_auc_score(y_trueoe02, y_predoe02)
-pAUC = metrics.roc_auc_score(y_trueoe02, y_predoe02, max_fpr=0.1)
+AUC_s = metrics.roc_auc_score(y_trueoe02s, y_predoe02s)
+pAUC = metrics.roc_auc_score(y_trueoe02s, y_predoe02s, max_fpr=0.1)
 
-AUCavg += AUC
+AUCavg_s += AUC_s
 pAUCavg += pAUC
 
-print("class: OE fan section 02, outlier type: ", args['OE'])
-print("AUC: ", AUC)
-# print("Anomaly acc 2: ", auc2)
+AUC_list_s.append(AUC_s)
+pAUC_list.append(pAUC)
+
+print("class: OE", args['target_class'], "section 02, outlier type: ", args['OE'], 'source')
+print("AUC: ", AUC_s)
 print("pAUC: ", pAUC)
 
-print("AUC avg:", AUCavg/3)
-print("pAUC avg:", pAUCavg/3)
+y_predoe02t = []
+y_trueoe02t = []
+
+for data, target in test_loader_t02:
+    data = torch.swapaxes(data, 2, 3)
+
+    model.eval()
+    with torch.no_grad():
+        input02 = data.float().to(device)
+        output = model(input02)
+
+        loss = loss_function(output, input02)
+
+        y_predoe02t.append(np.mean(loss.cpu().numpy()))
+        y_trueoe02t.append(target.item())
+
+y_predoe02t = np.array(y_predoe02t)
+y_trueoe02t = np.array(y_trueoe02t)
+
+AUC_t = metrics.roc_auc_score(y_trueoe02t, y_predoe02t)
+pAUC = metrics.roc_auc_score(y_trueoe02t, y_predoe02t, max_fpr=0.1)
+
+AUCavg_t += AUC_t
+pAUCavg += pAUC
+
+AUC_list_t.append(AUC_t)
+pAUC_list.append(pAUC)
+
+print("class: OE", args['target_class'], "section 02, outlier type: ", args['OE'], 'target')
+print("AUC: ", AUC_t)
+print("pAUC: ", pAUC)
+
+
+print("AUC_s avg:", AUCavg_s/3)
+print("AUC_t avg:", AUCavg_t/3)
+print("pAUC avg:", pAUCavg/6)
+
+AUC_harmonic_s = statistics.harmonic_mean(AUC_list_s)
+AUC_harmonic_t = statistics.harmonic_mean(AUC_list_t)
+pAUC_harmonic = statistics.harmonic_mean(pAUC_list)
+
+
+print("AUC harmonic source:", AUC_harmonic_s)
+print("AUC harmonic target:", AUC_harmonic_t)
+
+print("pAUC harmonic:", pAUC_harmonic)
