@@ -1,9 +1,9 @@
-class: OE gearbox section 02, outlier type:  bearing target
-AUC:  0.6880000000000001
-pAUC:  0.5136842105263157
-AUC_s avg: 0.5025333333333334
-AUC_t avg: 0.5325333333333333
-pAUC avg: 0.5336842105263159
-AUC harmonic source: 0.5017160302632947
-AUC harmonic target: 0.5009556259674782
-pAUC harmonic: 0.5314586467209149
+class: OE bearing section 02, outlier type:  fan target
+AUC:  0.6700000000000002
+pAUC:  0.5305263157894737
+AUC_s avg: 0.5352
+AUC_t avg: 0.5158666666666667
+pAUC avg: 0.5456140350877193
+AUC harmonic source: 0.48796211698131
+AUC harmonic target: 0.46147447086214644
+pAUC harmonic: 0.5381145180948187
